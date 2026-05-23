@@ -18,6 +18,8 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
   const [customFoodFormVisible, setCustomFoodFormVisible] = useState(false);
   const [visibleRecipesCount, setVisibleRecipesCount] = useState(3);
   const [visibleHistoryCount, setVisibleHistoryCount] = useState(3);
+  const [mealType, setMealType] = useState('BREAKFAST');
+  const [tMinusTime, setTMinusTime] = useState('');
   
   const todayStr = new Date().toLocaleDateString();
   const [selectedDateStr, setSelectedDateStr] = useState<string>(todayStr);
@@ -35,7 +37,6 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
 
   const filteredFoods = useMemo(() => {
     return MOCK_FOODS.filter((food) => {
-      const isIndian = food.category.toLowerCase().includes('indian');
       const haystack = `${food.name} ${food.brand || ''} ${food.category} ${food.notes || ''}`.toLowerCase();
       const matchesSearch = haystack.includes(searchQuery.toLowerCase());
       const matchesFilter =
@@ -47,7 +48,7 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
               ? food.unit === 'ml'
               : food.isPackaged;
 
-      return isIndian && matchesSearch && matchesFilter;
+      return matchesSearch && matchesFilter;
     });
   }, [foodFilter, searchQuery]);
 
@@ -110,6 +111,8 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
       quantity: parsedQuantity,
       unit: selectedFood.unit,
       timestamp: logTimestamp,
+      mealType,
+      tMinusTime,
     });
 
     setSelectedFood(null);
@@ -217,7 +220,7 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
                       {log.name}{log.brand ? ` // ${log.brand}` : ''}
                     </p>
                     <p className="text-[10px] text-[#5a5a5f] uppercase tracking-wider font-bold mt-1">
-                      {log.quantity || 1} {log.unit || 'PIECE'} // {new Date(log.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {log.mealType || 'UNSPECIFIED'} {log.tMinusTime ? `// ${log.tMinusTime}` : ''} // {log.quantity || 1} {log.unit || 'PIECE'}
                     </p>
                     <p className="text-xs text-[#f0f0fa] mt-1 uppercase tracking-wider font-bold">
                       PRO: {(log.protein || 0).toFixed(1)}G | CRB: {(log.carbs || 0).toFixed(1)}G | FAT: {(log.fats || 0).toFixed(1)}G
@@ -333,7 +336,7 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
                       <div className="border border-[#3a3a3f] p-3 text-center"><div className="eyebrow">FAT</div><div className="text-xl font-bold">{selectedFood.fats}</div></div>
                     </div>
 
-                    <div className="flex items-end gap-4">
+                    <div className="flex flex-col md:flex-row md:items-end gap-4">
                       <div className="flex-1">
                         <label className="eyebrow block mb-2">INPUT MASS/VOLUME ({selectedFood.unit})</label>
                         <input
@@ -343,7 +346,31 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
                           className="w-full text-xl py-3 border-b border-[#3a3a3f] bg-transparent rounded-none focus:border-white outline-none"
                         />
                       </div>
-                      <button onClick={addFoodLog} className="btn-filled whitespace-nowrap">
+                      <div className="flex-1">
+                        <label className="eyebrow block mb-2">MEAL TYPE</label>
+                        <select
+                          value={mealType}
+                          onChange={(e) => setMealType(e.target.value)}
+                          className="w-full text-xl py-3 border-b border-[#3a3a3f] bg-transparent text-[#f0f0fa] outline-none"
+                        >
+                          <option value="BREAKFAST" className="bg-[#0a0a0a]">BREAKFAST</option>
+                          <option value="BRUNCH" className="bg-[#0a0a0a]">BRUNCH</option>
+                          <option value="LUNCH" className="bg-[#0a0a0a]">LUNCH</option>
+                          <option value="SUPPER" className="bg-[#0a0a0a]">SUPPER</option>
+                          <option value="DINNER" className="bg-[#0a0a0a]">DINNER</option>
+                        </select>
+                      </div>
+                      <div className="flex-1">
+                        <label className="eyebrow block mb-2">T-MINUS</label>
+                        <input
+                          type="text"
+                          placeholder="T-00:00"
+                          value={tMinusTime}
+                          onChange={(e) => setTMinusTime(e.target.value)}
+                          className="w-full text-xl py-3 border-b border-[#3a3a3f] bg-transparent rounded-none focus:border-white outline-none uppercase placeholder:text-[#3a3a3f]"
+                        />
+                      </div>
+                      <button onClick={addFoodLog} className="btn-filled whitespace-nowrap h-[56px]">
                         COMMIT TO LOG
                       </button>
                     </div>
@@ -388,6 +415,14 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
                             <option value="ml" className="bg-[#0a0a0a]">MILLILITERS (ML)</option>
                             <option value="piece" className="bg-[#0a0a0a]">UNIT (PIECE)</option>
                           </select>
+                          <select value={mealType} onChange={e => setMealType(e.target.value)} className="bg-transparent border border-[#3a3a3f] p-3 text-white outline-none">
+                            <option value="BREAKFAST" className="bg-[#0a0a0a]">BREAKFAST</option>
+                            <option value="BRUNCH" className="bg-[#0a0a0a]">BRUNCH</option>
+                            <option value="LUNCH" className="bg-[#0a0a0a]">LUNCH</option>
+                            <option value="SUPPER" className="bg-[#0a0a0a]">SUPPER</option>
+                            <option value="DINNER" className="bg-[#0a0a0a]">DINNER</option>
+                          </select>
+                          <input placeholder="T-MINUS (E.G. T-04:00)" type="text" value={tMinusTime} onChange={e => setTMinusTime(e.target.value)} className="bg-transparent border border-[#3a3a3f] p-3 text-white outline-none uppercase" />
                         </div>
                         <div className="flex justify-end mt-6 gap-4">
                           <button onClick={() => setCustomFoodFormVisible(false)} className="text-xs font-bold uppercase tracking-wider text-[#5a5a5f] hover:text-white">ABORT</button>
@@ -411,6 +446,8 @@ export default function CalorieTracker({ logs, onAdd, onRemove }: CalorieTracker
                               quantity: parsedQty,
                               unit: customFoodData.unit as any,
                               timestamp: logTimestamp,
+                              mealType,
+                              tMinusTime,
                             });
                             setCustomFoodFormVisible(false);
                             setCustomFoodData({ name: '', calories: '', protein: '', carbs: '', fats: '', unit: 'g', quantity: '1', category: 'INDIAN' });

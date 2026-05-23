@@ -36,6 +36,8 @@ export interface MealLog {
   quantity: number;
   unit: 'g' | 'ml' | 'piece';
   timestamp: number;
+  mealType?: string;
+  tMinusTime?: string;
 }
 
 export interface Recipe {
