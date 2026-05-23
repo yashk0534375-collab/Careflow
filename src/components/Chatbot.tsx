@@ -27,7 +27,7 @@ export default function Chatbot({ userLocation }: ChatbotProps) {
     {
       role: 'bot',
       content:
-        'COMM LINK ESTABLISHED. CAREFLOW AI ONLINE. AWAITING INQUIRY REGARDING TELEMETRY, PROTOCOLS, OR GENERAL DIRECTIVES.',
+        'COMM LINK ESTABLISHED.\nBAYMAX ONLINE.\nAWAITING INQUIRY REGARDING TELEMETRY, PROTOCOLS, OR GENERAL DIRECTIVES.',
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
@@ -100,7 +100,7 @@ export default function Chatbot({ userLocation }: ChatbotProps) {
           >
             <div className="p-4 border-b border-[#3a3a3f] flex items-center justify-between bg-black">
               <div>
-                <h3 className="text-sm font-bold uppercase tracking-widest">CAREFLOW AI</h3>
+                <h3 className="text-sm font-bold uppercase tracking-widest">BAYMAX</h3>
                 <p className="text-[9px] text-[#5a5a5f] uppercase tracking-widest mt-1">SECURE CHANNEL</p>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-[#5a5a5f] hover:text-white text-[10px] font-bold uppercase tracking-wider">

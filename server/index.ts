@@ -244,7 +244,7 @@ function fallbackChatReply(message: string) {
 
   // Default Guidance
   return buildBulletedReply(
-    '👋 Hello! I am your CareFlow Health Assistant.',
+    '👋 Hello! I am BAYMAX.',
     [
       'I can answer health questions about hydration, nutrition/calories, exercise/fitness, BMI, sleep/recovery, medicine reminders, and mild symptoms.',
       'To get started, try asking: "How much water should I drink?", "What is a healthy BMI?", "Tips for muscle building", or "How to sleep better".',
@@ -628,10 +628,11 @@ app.post('/api/chat', async (req, res) => {
         ],
           config: {
             systemInstruction: [
-              'You are CareFlow AI, a highly empathetic, warm, and easy-to-understand health assistant.',
+              'You are BAYMAX, a highly empathetic, warm, and easy-to-understand health assistant.',
               'CRITICAL FORMATTING RULES:',
               '1. NEVER use markdown symbols like *, #, **, or - in your response. The chat UI cannot render them properly.',
-              '2. Keep your replies strictly as plain text, using simple line breaks (Enter) to separate thoughts.',
+              '2. Keep your replies strictly as plain text.',
+              '3. You MUST put EVERY single sentence on its own separate line (press Enter after every sentence) to form a vertical stack. Never write sentences continuously.',
               'CRITICAL TONE & LENGTH RULES:',
               '1. Be incredibly brief and straight to the point. Keep your entire response under 3 to 4 short sentences maximum.',
               '2. Remove all fluff, filler, and long introductions. Give the user exactly what they need instantly.',
