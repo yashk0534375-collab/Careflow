@@ -1,0 +1,8 @@
+{
+  "name": "CareFlow",
+  "description": "A modern, professional healthcare companion for tracking health, finding nearby hospitals, and AI-powered medical assistance.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}
