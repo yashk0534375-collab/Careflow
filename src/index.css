@@ -1,0 +1,285 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/* ─── DESIGN SYSTEM: SpaceX-inspired ─── */
+/* Pure black canvas, white type, Inter (D-DIN substitute),
+   ghost pill buttons, hairline borders, no accent colors. */
+
+@theme {
+  /* Surface */
+  --color-canvas: #000000;
+  --color-canvas-soft: #0a0a0a;
+  --color-canvas-light: #ffffff;
+  --color-canvas-cool: #f0f0fa;
+
+  /* Text */
+  --color-on-primary: #ffffff;
+  --color-on-primary-mute: #f0f0fa;
+  --color-ink: #000000;
+  --color-ink-mute: #5a5a5f;
+
+  /* Borders */
+  --color-hairline: #3a3a3f;
+  --color-hairline-light: #e0e0e8;
+
+  /* Functional (minimal — used only for status) */
+  --color-status-ok: #4ade80;
+  --color-status-warn: #facc15;
+  --color-status-danger: #f87171;
+  --color-status-info: #60a5fa;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-pill: 32px;
+  --radius-full: 9999px;
+
+  /* Font */
+  --font-sans: 'Inter', 'Arial Narrow', Arial, Verdana, sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-on-primary);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.32px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    border-color: var(--color-hairline);
+  }
+
+  input,
+  select,
+  textarea {
+    color: var(--color-on-primary);
+    background-color: var(--color-canvas-soft);
+    border: 1px solid var(--color-hairline);
+    border-radius: var(--radius-xs);
+    padding: 12px 16px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    letter-spacing: 0.32px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-ink-mute);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--color-on-primary);
+  }
+
+  button {
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: var(--font-sans);
+  }
+}
+
+/* ─── DISPLAY TYPOGRAPHY ─── */
+.display-xxl {
+  font-family: var(--font-sans);
+  font-size: clamp(40px, 6vw, 80px);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+.display-xl {
+  font-family: var(--font-sans);
+  font-size: clamp(32px, 4vw, 60px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.display-lg {
+  font-family: var(--font-sans);
+  font-size: clamp(24px, 3vw, 48px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 2.0;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: var(--color-ink-mute);
+}
+
+.button-cap {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 1.17px;
+  text-transform: uppercase;
+}
+
+.caption-text {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* ─── GHOST PILL BUTTON (signature CTA) ─── */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 24px;
+  border: 1px solid var(--color-on-primary);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-on-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 1.17px;
+  text-transform: uppercase;
+  transition: all 0.25s;
+}
+
+.btn-ghost:hover {
+  background: var(--color-on-primary);
+  color: var(--color-canvas);
+}
+
+.btn-ghost-sm {
+  padding: 12px 18px;
+  font-size: 11px;
+}
+
+/* ─── FILLED COOL BUTTON (secondary CTA) ─── */
+.btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 24px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-on-primary);
+  color: var(--color-canvas);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.17px;
+  text-transform: uppercase;
+  transition: all 0.25s;
+}
+
+.btn-filled:hover {
+  background: var(--color-on-primary-mute);
+}
+
+/* ─── CARD ─── */
+.card {
+  background: var(--color-canvas-soft);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  position: relative;
+}
+
+/* ─── NAV BAR ─── */
+.nav-overlay {
+  background: transparent;
+  color: var(--color-on-primary);
+  padding: 24px 32px;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-hairline);
+  border-radius: var(--radius-full);
+}
+
+/* ─── LEAFLET MAP OVERRIDES ─── */
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  z-index: 1;
+  font-family: var(--font-sans) !important;
+  background-color: #111 !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: var(--color-canvas-soft) !important;
+  color: var(--color-on-primary) !important;
+  border-radius: var(--radius-sm) !important;
+  border: 1px solid var(--color-hairline) !important;
+  font-family: var(--font-sans) !important;
+  padding: 4px !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--color-canvas-soft) !important;
+}
+
+.leaflet-bar {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.leaflet-bar a {
+  background-color: var(--color-canvas-soft) !important;
+  color: var(--color-on-primary) !important;
+  border: 1px solid var(--color-hairline) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: var(--color-hairline) !important;
+}
+
+/* ─── NO SCROLLBAR UTILITY ─── */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ─── PROGRESS BAR ANIMATION ─── */
+@keyframes bar-grow {
+  from { width: 0; }
+}
+.animate-bar {
+  animation: bar-grow 1s ease-out forwards;
+}
