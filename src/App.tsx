@@ -213,7 +213,10 @@ useEffect(() => {
             {activeTab === 'profile' && (
               <ProfileForm
                 initialData={userProfile}
-                onSave={setUserProfile}
+                onSave={(profile) => {
+                  setUserProfile(profile);
+                  setActiveTab('dashboard');
+                }}
               />
             )}
           </motion.div>
@@ -231,7 +234,7 @@ useEffect(() => {
         </div>
       </footer>
 
-      <Chatbot />
+      <Chatbot userLocation={userLocation} />
     </div>
   );
 }

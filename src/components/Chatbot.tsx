@@ -16,7 +16,11 @@ const focusSuggestions = [
   'STRESS MITIGATION',
 ];
 
-export default function Chatbot() {
+interface ChatbotProps {
+  userLocation?: [number, number] | null;
+}
+
+export default function Chatbot({ userLocation }: ChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -55,6 +59,8 @@ export default function Chatbot() {
         body: JSON.stringify({
           message: nextMessage,
           history: nextHistory.slice(-10),
+          lat: userLocation?.[0],
+          lng: userLocation?.[1],
         }),
       });
 
@@ -124,7 +130,7 @@ export default function Chatbot() {
                     {msg.role === 'user' ? 'CMD' : 'AI'}
                   </span>
                   <div
-                    className={`p-3 text-sm leading-relaxed max-w-[85%] uppercase font-bold tracking-wide ${
+                    className={`p-3 text-sm leading-relaxed max-w-[85%] uppercase font-bold tracking-wide whitespace-pre-wrap ${
                       msg.role === 'user'
                         ? 'bg-white text-black'
                         : 'border border-[#3a3a3f] text-[#f0f0fa]'

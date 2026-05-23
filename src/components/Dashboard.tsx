@@ -87,7 +87,7 @@ export default function Dashboard({ profile, meals, water, medicines }: Dashboar
     <div className="space-y-12">
       <header className="border-b border-[#3a3a3f] pb-3">
         <div className="flex items-baseline justify-between mb-4">
-          <h1 className="display-xxl">STATUS: NOMINAL</h1>
+          <h1 className="display-xxl">STATUS: {bmiCategory}</h1>
           <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#5a5a5f]">{new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
         </div>
         <p className="caption-text text-[#f0f0fa] max-w-2xl">
